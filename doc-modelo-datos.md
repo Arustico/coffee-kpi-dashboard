@@ -84,7 +84,7 @@ erDiagram
     }
     Ingredient ||--o{ IngredientPurchase : se compra
     Ingredient ||--o{ ProductIngredient : usado en
-    Ingredient ||---| Shift
+    Ingredient ||--|| Shift
     Ingredient {
         int id PK
         string name
