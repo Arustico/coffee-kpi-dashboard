@@ -74,8 +74,7 @@ Estas se calculan, no se guardan — viven en VIEWs.
 
 ## Esquema del Modelo (ERD)
 
-```{mermaid}
-
+```mermaid
 erDiagram
     Supplier ||--o{ IngredientPurchase : provee
     Supplier {
