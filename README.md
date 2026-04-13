@@ -111,6 +111,16 @@ número de tickets
 ## Fases de trabajo
 Se irá avanzando por característica (feature) en la siguientes fases:
 
+> **Herramientas**
+* FastAPI
+* Dash
+* SQLAlchemy
+* SQLite → PostgreSQL
+* Pydantic
+* Uvicorn
+* Reflex (javaScritp)
+
+
 ### 1. Fase Producto Viable Mínimo (MVP):
 Construcción de la versión más simple y funcional. Se partirá con el módulo de ventas, esto es, crear un schema de la data, conectar con un dashboard básico, y SQL. Utilizar herramientas como flask para dashboard y/o dash. Para SQL utilizar SQLlitle. En detalle:
 
@@ -178,6 +188,5 @@ Objetivo: listo para comercializar.
 * Multiusuario
 * Roles
 * Exportación a PDF o Excel
-
 
 
