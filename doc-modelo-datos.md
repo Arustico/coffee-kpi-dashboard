@@ -148,7 +148,7 @@ erDiagram
         float unit_price
     }
     
-    Product ||--o{ ProductIngredient
+    Product ||--o{ ProductIngredient : requiere
     Product{
         int id PK
         string name
