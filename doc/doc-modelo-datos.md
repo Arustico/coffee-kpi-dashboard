@@ -38,17 +38,17 @@ Son aquellas que se ingresan en la operación diaria.
 
 | Variable | Significado | Cómo se obtiene | 
 |----------|-------------|-----------------|
-|```sale.sold_at```  | Fecha y hora exacta de la venta | Automático (timestamp al registrar) |
-|```sale.turn_id``` | Turno en que ocurrió la venta   | Calculado automáticamente según hora
-|```sale.employee_id```| Barista que registró la ventaLogin del barista en la app
-|```sale_item.product_id```  | Producto vendid oSelección en la app
-|```sale_item.quantity```    | Cuántas unidades se vendieron | Ingreso por barista
-| ```sale_item.unit_price``` | Precio al momento de la venta | Copiado automáticamente desde ```product.base_price```
+|```sale.sold_at```     | Fecha y hora exacta de la venta   | Automático (timestamp al registrar)   |
+|```sale.turn_id```     | Turno en que ocurrió la venta     | Calculado automáticamente según hora  |
+|```sale.employee_id``` | Barista que registró la venta  | Login del barista en la app |
+|```sale_item.product_id```  | Producto vendido         | Selección en la app         |
+|```sale_item.quantity```    | Cuántas unidades se vendieron  | Ingreso por barista    |
+| ```sale_item.unit_price``` | Precio al momento de la venta  | Copiado automáticamente desde ```product.base_price``` |
 | ```ingredient_purchase.ingredient_id``` | Insumo comprado   | Selección al registrar compra |
 | ```ingredient_purchase.quantity```      | Cantidad comprada | Ingreso por gerente o barista |
-| ```ingredient_purchase.unit_cost```     | Costo pagado en esa compra | Ingreso manual (desde factura/boleta)|
-| ```ingredient_purchase.purchased_at```  | Fecha y hora exacta de la compra | Automático (timestamp al registrar) |
-| ```waste_log.ingredient_id```           |Insumo desperdiciado | Registrado por barista al final del turno|
+| ```ingredient_purchase.unit_cost```     | Costo pagado en esa compra        | Ingreso manual (desde factura/boleta) |
+| ```ingredient_purchase.purchased_at```  | Fecha y hora exacta de la compra  | Automático (timestamp al registrar)   |
+| ```waste_log.ingredient_id```           | Insumo desperdiciado              | Registrado por barista al final del turno |
 | ```waste_log.quantity```  | Cantidad desperdiciada | Ingreso por barista | 
 |```waste_log.reason```     | Motivo (caducidad, error de preparación, derrame) | Selección de lista por barista |
 ------------------
