@@ -2,22 +2,15 @@
 
 ## Algunas generalidades: 
 
-* *Shift* (turno) será la entidad central. Será la únidad de análisis primaria para la cafetería. A partir de este se podrá realizar análisis diarios, semanales y mensuales. El *shift_id* en Sale se asigna automáticamente comparando sold_at contra los rangos 
+* *Turn* (turno) será la entidad central. Será la únidad de análisis primaria para la cafetería. A partir de este se podrá realizar análisis diarios, semanales y mensuales. El *turn_id* en Sale se asigna automáticamente comparando sold_at contra los rangos *start_time/end_time*, sin que el barista tenga que seleccionarlo.
 
-* *PriceHistory* para productos e IngredientCostHistory para los precios insumos, ya que estos cambian con respecto al tiempo.
+* *WasteLog* para registrar desperdicio por insumo/turno. Se liga directamente a *Ingredient* (no a *Product*) porque el desperdicio ocurre a nivel de insumo: **se bota leche, no un latte**. Esto permite calcular waste_ratio con precisión real.
 
-* *WasteLog* para registrar desperdicio por insumo/turno. Esto corresponde a fallas, pedidos que no se realizaron, o devolvieron. 
-
-* **SaleItem.unit_price** se mantiene como snapshot del precio en el momento de venta
+* *SaleItem.unit_price* se guarda como snapshot del precio vigente en el momento de venta. Así, si mañana sube el precio del latte, los reportes históricos no se ven alterados.
 
 * El costo teórico vs real se resuelve con dos **VIEWs**: una desde *ProductIngredient + IngredientCostHistory*, otra desde *IngredientPurchase + WasteLog*. 
 
-* *Target* ahora tiene shift_type opcional (mañana/tarde/noche) además de período semanal/mensual
-
-
-start_time/end_time, sin que el barista tenga que seleccionarlo.
-WasteLog se liga directamente a Ingredient (no a Product) porque el desperdicio ocurre a nivel de insumo: se bota leche, no un latte. Esto permite calcular waste_ratio con precisión real.
-unit_price se guarda en SaleItem como snapshot del precio vigente al momento de la venta. Así, si mañana sube el precio del latte, los reportes históricos no se alteran.
+* *Target* ahora tiene turn_type opcional (mañana/tarde/noche) además de período semanal/mensual
 
 ## Variables del modelo explicadas
 A continuación se muestran las variables del modelo para el cafe, sus variables y cómo deben obtenerse. 
@@ -36,8 +29,8 @@ Son ingresadas una vez por definición o acuerdo y cambian poco.
 |```product_ingredient.quantity```  | Cantidad de insumo que usa 1 unidad del producto | Definido / Manual (la "receta") | 
 |```employee.name```  | Nombre del barista o gerente | Definido / Manual |
 |```employee.role```  | Rol: barista o manager | Definido / Manual |                         |
-|```shift.label```    | Nombre del turno (Mañana / Tarde / Noche) | Definido / Manual |      |
-|```shift.start_time / end_time``` | Horario de inicio y fin del turno | Definido / Manual | |
+|```turn.label```    | Nombre del turno (Mañana / Tarde / Noche) | Definido / Manual |      |
+|```turn.start_time / end_time``` | Horario de inicio y fin del turno | Definido / Manual | |
 ------------------
 
 ### Transaccionales
@@ -46,7 +39,7 @@ Son aquellas que se ingresan en la operación diaria.
 | Variable | Significado | Cómo se obtiene | 
 |----------|-------------|-----------------|
 |```sale.sold_at```  | Fecha y hora exacta de la venta | Automático (timestamp al registrar) |
-|```sale.shift_id``` | Turno en que ocurrió la venta   | Calculado automáticamente según hora
+|```sale.turn_id``` | Turno en que ocurrió la venta   | Calculado automáticamente según hora
 |```sale.employee_id```| Barista que registró la ventaLogin del barista en la app
 |```sale_item.product_id```  | Producto vendid oSelección en la app
 |```sale_item.quantity```    | Cuántas unidades se vendieron | Ingreso por barista
@@ -66,7 +59,7 @@ Estas se calculan, no se guardan — viven en VIEWs.
 
 | KPI | Significado | Fórmula |
 |-----|-------------|---------|
-| ```revenue_per_shift``` | Ingresos totales por turno | ```SUM(sale_item.quantity × unit_price)``` agrupado por ```shift``` |
+| ```revenue_per_turn``` | Ingresos totales por turno | ```SUM(sale_item.quantity × unit_price)``` agrupado por ```turn``` |
 |```cost_per_cup``` | Costo de ingredientes por unidad vendida | ```SUM(ingredient.cost_per_unit × product_ingredient.quantity)``` por producto
 | ```gross_margin```| Margen bruto por producto o turno | ```(unit_price − cost_per_cup) / unit_price × 100``` |```ingredient_consumption``` | Insumos consumidos por período | ```SUM(sale_item.quantity × product_ingredient.quantity)``` por ingrediente
 |```waste_value```   | Valor económico del desperdicio  |  ```SUM(waste_log.quantity × ingredient.cost_per_unit)```
@@ -93,9 +86,9 @@ erDiagram
         float cost_per_unit
     }
     
-    Shift ||--o{ WasteLog : en-el-Turno
-    Shift ||--o{ Sale : agrupa
-    Shift {
+    Turn ||--o{ WasteLog : en-el-Turno
+    Turn ||--o{ Sale : agrupa
+    Turn {
         int id PK
         string label
         time start_time
@@ -124,7 +117,7 @@ erDiagram
         int id PK
         int ingredient_id FK
         int employee_id FK
-        int shift_id FK
+        int turn_id FK
         date logged_at 
         float quantity
         string reason
@@ -134,7 +127,7 @@ erDiagram
     Sale {
         int id PK
         int employee_id FK
-        int shift_id FK
+        int turn_id FK
         datetime sold_at
         float total_amount
     }
