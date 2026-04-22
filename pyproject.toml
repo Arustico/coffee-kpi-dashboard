@@ -1,0 +1,16 @@
+[project]
+name = "coffee-kpi-dashboard"
+version = "0.1.0"
+description = "APP para registrar, medir y mostrar principales KPI de una cafetería"
+authors = [
+    {name = "Ariel Nunez S."}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
