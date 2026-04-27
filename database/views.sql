@@ -14,7 +14,7 @@
 -- 1. COSTO PROMEDIO POR INGREDIENTE
 -- =====================================
 
-CREATE VIEW v_avg_ingredient_cost AS
+CREATE VIEW IF NOT EXISTS v_avg_ingredient_cost AS
 SELECT
     ingredient_id,
     SUM(quantity * unit_cost) / SUM(quantity) AS avg_cost
@@ -26,7 +26,7 @@ GROUP BY ingredient_id;
 -- 2. COSTO TEÓRICO POR PRODUCTO
 -- =====================================
 
-CREATE VIEW v_product_cost AS
+CREATE VIEW IF NOT EXISTS v_product_cost AS
 SELECT
     p.id AS product_id,
     p.name,
@@ -41,7 +41,7 @@ GROUP BY p.id;
 -- 3. REVENUE POR PRODUCTO
 -- =====================================
 
-CREATE VIEW v_product_revenue AS
+CREATE VIEW IF NOT EXISTS v_product_revenue AS
 SELECT
     si.product_id,
     SUM(si.quantity) AS total_units,
@@ -54,7 +54,7 @@ GROUP BY si.product_id;
 -- 4. VENTAS POR TURNO
 -- =====================================
 
-CREATE VIEW v_sales_by_turn AS
+CREATE VIEW IF NOT EXISTS v_sales_by_turn AS
 SELECT
     s.turn_id,
     DATE(s.sold_at) AS date,
@@ -69,7 +69,7 @@ GROUP BY s.turn_id, DATE(s.sold_at);
 -- 5. CONSUMO TEÓRICO DE INGREDIENTES
 -- =====================================
 
-CREATE VIEW v_ingredient_consumption AS
+CREATE VIEW IF NOT EXISTS v_ingredient_consumption AS
 SELECT
     pi.ingredient_id,
     SUM(si.quantity * pi.quantity) AS total_used
@@ -82,7 +82,7 @@ GROUP BY pi.ingredient_id;
 -- 6. VALOR DEL CONSUMO
 -- =====================================
 
-CREATE VIEW v_consumption_value AS
+CREATE VIEW IF NOT EXISTS v_consumption_value AS
 SELECT
     ic.ingredient_id,
     ic.total_used,
@@ -97,7 +97,7 @@ JOIN v_avg_ingredient_cost aic
 -- 7. DESPERDICIO
 -- =====================================
 
-CREATE VIEW v_waste_value AS
+CREATE VIEW IF NOT EXISTS v_waste_value AS
 SELECT
     w.ingredient_id,
     SUM(w.quantity) AS total_waste,
@@ -113,7 +113,7 @@ GROUP BY w.ingredient_id;
 -- 8. MARGEN POR PRODUCTO
 -- =====================================
 
-CREATE VIEW v_product_margin AS
+CREATE VIEW IF NOT EXISTS v_product_margin AS
 SELECT
     pr.product_id,
     pr.total_units,
@@ -130,7 +130,7 @@ JOIN v_product_cost pc ON pr.product_id = pc.product_id;
 -- 9. KPI GLOBAL DE DESPERDICIO
 -- =====================================
 
-CREATE VIEW v_waste_ratio AS
+CREATE VIEW IF NOT EXISTS v_waste_ratio AS
 SELECT
     SUM(wv.waste_cost) AS total_waste_cost,
     SUM(cv.total_cost) AS total_consumption_cost,

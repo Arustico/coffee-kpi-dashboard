@@ -9,12 +9,12 @@
 -- DIMENSIONALES
 -- =========================
 
-CREATE TABLE Role (
+CREATE TABLE IF NOT EXISTS Role (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE Employee (
+CREATE TABLE IF NOT EXISTS Employee (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     role_id INTEGER NOT NULL,
@@ -22,14 +22,14 @@ CREATE TABLE Employee (
     FOREIGN KEY (role_id) REFERENCES Role(id)
 );
 
-CREATE TABLE Turn (
+CREATE TABLE IF NOT EXISTS Turn (
     id INTEGER PRIMARY KEY,
     label TEXT NOT NULL,
     start_time TEXT NOT NULL,
     end_time TEXT NOT NULL
 );
 
-CREATE TABLE Product (
+CREATE TABLE IF NOT EXISTS Product (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     category TEXT,
@@ -37,12 +37,12 @@ CREATE TABLE Product (
     active INTEGER DEFAULT 1
 );
 
-CREATE TABLE IngredientUnit (
+CREATE TABLE IF NOT EXISTS IngredientUnit (
     unit TEXT PRIMARY KEY,
     description TEXT
 );
 
-CREATE TABLE Ingredient (
+CREATE TABLE IF NOT EXISTS Ingredient (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     unit TEXT NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE Ingredient (
 );
 
 -- Receta
-CREATE TABLE ProductIngredient (
+CREATE TABLE IF NOT EXISTS ProductIngredient (
     product_id INTEGER,
     ingredient_id INTEGER,
     quantity REAL NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE ProductIngredient (
 -- TRANSACCIONALES
 -- =========================
 
-CREATE TABLE Sale (
+CREATE TABLE IF NOT EXISTS Sale (
     id INTEGER PRIMARY KEY,
     employee_id INTEGER NOT NULL,
     turn_id INTEGER NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Sale (
     FOREIGN KEY (turn_id) REFERENCES Turn(id)
 );
 
-CREATE TABLE SaleItem (
+CREATE TABLE IF NOT EXISTS SaleItem (
     id INTEGER PRIMARY KEY,
     sale_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
@@ -84,12 +84,12 @@ CREATE TABLE SaleItem (
     FOREIGN KEY (product_id) REFERENCES Product(id)
 );
 
-CREATE TABLE Supplier (
+CREATE TABLE IF NOT EXISTS Supplier (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
 );
 
-CREATE TABLE IngredientPurchase (
+CREATE TABLE IF NOT EXISTS IngredientPurchase (
     id INTEGER PRIMARY KEY,
     ingredient_id INTEGER NOT NULL,
     supplier_id INTEGER,
@@ -100,7 +100,7 @@ CREATE TABLE IngredientPurchase (
     FOREIGN KEY (supplier_id) REFERENCES Supplier(id)
 );
 
-CREATE TABLE WasteLog (
+CREATE TABLE IF NOT EXISTS WasteLog (
     id INTEGER PRIMARY KEY,
     ingredient_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
@@ -117,8 +117,8 @@ CREATE TABLE WasteLog (
 -- ÍNDICES
 -- =========================
 
-CREATE INDEX idx_sale_turn ON Sale(turn_id);
-CREATE INDEX idx_sale_employee ON Sale(employee_id);
-CREATE INDEX idx_saleitem_product ON SaleItem(product_id);
-CREATE INDEX idx_purchase_ingredient ON IngredientPurchase(ingredient_id);
-CREATE INDEX idx_waste_turn ON WasteLog(turn_id);
+CREATE INDEX IF NOT EXISTS idx_sale_turn ON Sale(turn_id);
+CREATE INDEX IF NOT EXISTS idx_sale_employee ON Sale(employee_id);
+CREATE INDEX IF NOT EXISTS idx_saleitem_product ON SaleItem(product_id);
+CREATE INDEX IF NOT EXISTS idx_purchase_ingredient ON IngredientPurchase(ingredient_id);
+CREATE INDEX IF NOT EXISTS idx_waste_turn ON WasteLog(turn_id);
