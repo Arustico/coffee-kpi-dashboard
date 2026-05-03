@@ -2,6 +2,8 @@
 *.db
 
 # Environment
+__init__*
+*/__pycache__
 .env
 .env.local
 .env.*.local

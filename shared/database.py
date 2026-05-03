@@ -47,7 +47,7 @@ def init_db():
   print("BD creada + schema cargado")
 
 def get_connection():
-  logger.info("Conectandose a base de datos...")
+  logger.info(f"Conectandose a base de datos {BD_PATH}...")
   conn = sqlite3.connect(BD_PATH)
   conn.row_factory = sqlite3.Row
   conn.execute("PRAGMA foreign_keys = ON;")
