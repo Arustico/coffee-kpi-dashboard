@@ -3,7 +3,7 @@
 
 # Environment
 __init__*
-*/__pycache__
+__pycache__
 .env
 .env.local
 .env.*.local
