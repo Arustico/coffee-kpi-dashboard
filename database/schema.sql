@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Employee (
 
 CREATE TABLE IF NOT EXISTS Turn (
     id INTEGER PRIMARY KEY,
+    active INTEGER DEFAULT 1,
     label TEXT NOT NULL,
     start_time TEXT NOT NULL,
     end_time TEXT NOT NULL
@@ -69,7 +70,7 @@ CREATE TABLE IF NOT EXISTS Sale (
     employee_id INTEGER NOT NULL,
     turn_id INTEGER NOT NULL,
     sold_at TEXT NOT NULL,
-    total_amount REAL NOT NULL,
+    total_amount REAL NOT NULL CHECK(total_amount > 0),
     FOREIGN KEY (employee_id) REFERENCES Employee(id),
     FOREIGN KEY (turn_id) REFERENCES Turn(id)
 );
