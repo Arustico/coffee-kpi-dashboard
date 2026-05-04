@@ -6,7 +6,7 @@ Simula datos de operaciones para poblar base de datos. Ayuda a probar si todo es
     3. probar KPIs -> generar desperdicio
     4. desarrollo -> no escribir datos manualmente
 
-FLUJO:
+FLUJO DE POPULACIÓN:
         Role
         ↓
         Employee
@@ -45,7 +45,8 @@ def seed():
     conn.execute("PRAGMA foreign_keys = ON;")
 
     # Roles
-    conn.execute("INSERT INTO Role (name) VALUES (?)", ("barista",))
+    conn.execute("INSERT INTO Role (id, name) VALUES (?, ?)", (0, "admin",))
+    conn.execute("INSERT INTO Role (id, name) VALUES (?, ?)", (1, "barista",))
 
     # Empleado
     conn.execute("""
