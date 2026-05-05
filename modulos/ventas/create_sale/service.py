@@ -116,7 +116,7 @@ def create_sale(data):
     conn.rollback()
     raise HTTPException(
       status_code=500,
-      detail=f"Error interno al crear venta {e}"
+      detail="Error interno al crear venta"
     )
 
   finally:

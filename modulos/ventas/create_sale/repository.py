@@ -88,7 +88,7 @@ def insert_sale(conn, employee_id, turn_id, total_amount):
   return cursor.lastrowid
 
 #-----------------------------------
-# Insertación de item
+# Inserción de item
 #-----------------------------------
 def insert_sale_item(conn, sale_id, product_id, quantity, unit_price):
   conn.execute(

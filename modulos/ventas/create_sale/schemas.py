@@ -14,4 +14,3 @@ class SaleCreate(BaseModel):
   employee_id: int = Field(gt=0, le=9)
   turn_id: Optional[int] = None
   items: List[SaleItemCreate]
-
