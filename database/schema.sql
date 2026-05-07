@@ -5,6 +5,27 @@
 -- Sucursales:   1 (sucursal.id = 1 siempre)
 -- Roles:        'admin' | 'barista'
 
+
+-- =========================
+-- USUARIOS (AUTENTICACIÓN)
+-- =========================
+
+CREATE TABLE IF NOT EXISTS "User" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL UNIQUE,
+    hashed_password TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    role_id INTEGER NOT NULL,
+    active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (role_id) REFERENCES Role(id)
+);
+
+-- Índice para búsquedas rápidas por email
+CREATE INDEX IF NOT EXISTS idx_user_email ON "User"(email);
+
+
 -- =========================
 -- DIMENSIONALES
 -- =========================
