@@ -22,7 +22,7 @@ def login_user(data: UserLogin):
 		if not verify_password(data.password, user["hashed_password"]):
 			raise HTTPException(
 				status_code=401,
-				detail="Credenciales inválidas: Contraseña Incorecta"
+				detail="Credenciales inválidas: Contraseña incorrecta"
 			)
 
 		# Verificar que usuario está activo
