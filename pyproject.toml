@@ -14,10 +14,14 @@ dependencies = [
     "python-jose (>=3.5.0,<4.0.0)",
     "passlib (>=1.7.4,<2.0.0)",
     "pydantic-settings (>=2.14.0,<3.0.0)",
-    "python-multipart (>=0.0.27,<0.0.28)"
+    "python-multipart (>=0.0.27,<0.0.28)",
+    "pydantic[email] (>=2.13.4,<3.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "./"}]  # o el nombre de tu paquete raíz
