@@ -38,7 +38,7 @@ def get_current_turn(conn):
 
   return row
 
-def get_turn_by_id(conn, turn_id):
+def get_turn_by_id(conn, turn_id: int) -> dict:
   """
   Obtiene el turno acorde al turno_id ingresado manualmente
   """
@@ -55,7 +55,7 @@ def get_turn_by_id(conn, turn_id):
 #-----------------------------------
 # Funcion identificación del turno
 #-----------------------------------
-def employee_is_active(conn, employee_id):
+def employee_is_active(conn, employee_id: int) -> bool:
   row = conn.execute("""
     SELECT active
     FROM Employee
@@ -71,7 +71,8 @@ def employee_is_active(conn, employee_id):
 # Inserción de una venta
 #-----------------------------------
 
-def insert_sale(conn, employee_id, turn_id, total_amount):
+def insert_sale(conn, employee_id: int,
+                turn_id: int, total_amount: float) -> int:
   cursor = conn.execute(
     """
     INSERT INTO Sale (
@@ -90,7 +91,11 @@ def insert_sale(conn, employee_id, turn_id, total_amount):
 #-----------------------------------
 # Inserción de item
 #-----------------------------------
-def insert_sale_item(conn, sale_id, product_id, quantity, unit_price):
+def insert_sale_item(conn, sale_id: int, product_id: int,
+                     quantity: int, unit_price: float) -> None:
+  """
+  Inserta el item vendido en la base de datos
+  """
   conn.execute(
     """
       INSERT INTO SaleItem (
@@ -110,7 +115,7 @@ def insert_sale_item(conn, sale_id, product_id, quantity, unit_price):
 #-----------------------------------
 # Obtención de precio del producto
 #-----------------------------------
-def get_product_price(conn, product_id):
+def get_product_price(conn, product_id: int) -> float:
 
   row = conn.execute("""
     SELECT base_price

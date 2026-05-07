@@ -40,7 +40,7 @@ sys.path.append(FOLDER_PRJCT)
 
 from shared.database import get_connection
 
-def seed():
+def seed() -> None:
     conn = get_connection()
     conn.execute("PRAGMA foreign_keys = ON;")
 
