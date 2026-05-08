@@ -12,6 +12,7 @@
 
 CREATE TABLE IF NOT EXISTS "User" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rut TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     hashed_password TEXT NOT NULL,
     full_name TEXT NOT NULL,
