@@ -12,8 +12,8 @@
 
 CREATE TABLE IF NOT EXISTS "User" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    rut TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,     -- Medio principal de autenticación
+    rut TEXT UNIQUE,                -- opcional (solo si necesitas facturación electrónica o compliance leg)
     hashed_password TEXT NOT NULL,
     full_name TEXT NOT NULL,
     role_id INTEGER NOT NULL,
@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS "User" (
     FOREIGN KEY (role_id) REFERENCES Role(id)
 );
 
--- Índice para búsquedas rápidas por email
+-- Índice para búsquedas rápidas por email y rut
 CREATE INDEX IF NOT EXISTS idx_user_email ON "User"(email);
-
+CREATE INDEX IF NOT EXISTS idx_user_rut ON "User"(rut);
 
 -- =========================
 -- DIMENSIONALES
@@ -38,10 +38,15 @@ CREATE TABLE IF NOT EXISTS Role (
 
 CREATE TABLE IF NOT EXISTS Employee (
     id INTEGER PRIMARY KEY,
+    rut TEXT NOT NULL UNIQUE,       -- Obligatorio
     name TEXT NOT NULL,
     role_id INTEGER NOT NULL,
     active INTEGER DEFAULT 1,
-    FOREIGN KEY (role_id) REFERENCES Role(id)
+    user_id INTEGER UNIQUE,         -- Relación con User
+    hire_date TEXT NOT NULL,
+    termination_date TEXT,          -- NULL si sigue activo
+    FOREIGN KEY (role_id) REFERENCES Role(id),
+    FOREIGN KEY (user_id) REFERENCES "User"(id)
 );
 
 CREATE TABLE IF NOT EXISTS Turn (

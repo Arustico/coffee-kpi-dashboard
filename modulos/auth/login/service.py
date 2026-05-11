@@ -59,7 +59,7 @@ def login_user(data: UserLogin):
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
-			detail="Error en autenticación"
+			detail=f"Error en autenticación {e}"
 		)
 	finally:
 		conn.close()
