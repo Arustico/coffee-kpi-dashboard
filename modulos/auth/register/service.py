@@ -8,6 +8,11 @@ from shared.security.jwt_handler import create_access_token, create_refresh_toke
 from modulos.auth.schemas import UserRegister, TokenResponse, UserResponse
 from modulos.auth.repository import user_exists, create_user, create_user, get_user_by_id
 
+    )
+#-----------------
+# SERVICE REGISTER
+#-----------------
+
 def register_user(data: UserRegister):
 	"""Registra un nuevo usuario. Return: TokenResponse con tokens y datos del usuario """
 	conn = get_connection()

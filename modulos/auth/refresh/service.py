@@ -4,6 +4,12 @@ from shared.database import get_connection
 from modulos.auth.schemas import TokenRefreshRequest, TokenResponse, UserResponse
 from modulos.auth.repository import get_user_by_id
 
+
+    )
+#-----------------
+# SERVIE REFRESH
+#-----------------
+
 def refresh_access_token(data: TokenRefreshRequest):
 	"""Genera un nuevo access token usando el refresh token"""
 

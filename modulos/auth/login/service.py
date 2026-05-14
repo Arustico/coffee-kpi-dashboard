@@ -5,6 +5,11 @@ from shared.security.jwt_handler import create_access_token, create_refresh_toke
 from modulos.auth.schemas import UserLogin, TokenResponse, UserResponse
 from modulos.auth.repository import get_user_by_email, update_last_login
 
+    )
+#-----------------
+# SERVICE LOGIN
+#-----------------
+
 def login_user(data: UserLogin):
 	"""Autentica un usuario y retorna tokens"""
 	conn = get_connection()
