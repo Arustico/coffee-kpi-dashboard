@@ -50,9 +50,9 @@ def seed() -> None:
 
     # Empleado
     conn.execute("""
-        INSERT INTO Employee (name, rut, role_id, hire_date)
+        INSERT INTO Employee (full_name, rut, role_id, hire_date)
         VALUES (?, ?, ?, ?)
-    """, ("Juan", "9.876.543-2", 1, "today"))
+    """, ("Juan Juanin juanjarry", "9.876.543-2", 1, "today"))
 
     # Turno
     conn.execute("""

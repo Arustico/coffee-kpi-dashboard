@@ -59,7 +59,19 @@ def login_user(data: UserLogin):
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
-			detail=f"Error en autenticación {e}"
+			detail=f"Error en autenticación"
 		)
 	finally:
 		conn.close()
+
+
+def update_last_login(conn, user_id: int):
+	"""Actualiza el último login del usuario"""
+	try:
+		conn.execute("""
+			UPDATE "User" SET updated_at = CURRENT_TIMESTAMP
+			WHERE id = ?
+		""", (user_id,))
+		conn.commit()
+	except Exception as e:
+		raise

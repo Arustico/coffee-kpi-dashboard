@@ -8,14 +8,15 @@
 
 -- =========================
 -- USUARIOS (AUTENTICACIÓN)
+-- Ocupan el dashboard
 -- =========================
 
 CREATE TABLE IF NOT EXISTS "User" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL UNIQUE,     -- Medio principal de autenticación
-    rut TEXT UNIQUE,                -- opcional (solo si necesitas facturación electrónica o compliance leg)
     hashed_password TEXT NOT NULL,
     full_name TEXT NOT NULL,
+    rut TEXT UNIQUE,                -- opcional (solo si necesitas facturación electrónica o compliance leg)
     role_id INTEGER NOT NULL,
     active INTEGER DEFAULT 1,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
@@ -23,12 +24,10 @@ CREATE TABLE IF NOT EXISTS "User" (
     FOREIGN KEY (role_id) REFERENCES Role(id)
 );
 
--- Índice para búsquedas rápidas por email y rut
-CREATE INDEX IF NOT EXISTS idx_user_email ON "User"(email);
-CREATE INDEX IF NOT EXISTS idx_user_rut ON "User"(rut);
 
 -- =========================
 -- DIMENSIONALES
+-- Roles, empleados, turnos, productos, recetas, etc.
 -- =========================
 
 CREATE TABLE IF NOT EXISTS Role (
@@ -39,15 +38,20 @@ CREATE TABLE IF NOT EXISTS Role (
 CREATE TABLE IF NOT EXISTS Employee (
     id INTEGER PRIMARY KEY,
     rut TEXT NOT NULL UNIQUE,       -- Obligatorio
-    name TEXT NOT NULL,
+    full_name TEXT NOT NULL,
     role_id INTEGER NOT NULL,
     active INTEGER DEFAULT 1,
+    phone TEXT,
+    address TEXT,
     user_id INTEGER UNIQUE,         -- Relación con User
     hire_date TEXT NOT NULL,
     termination_date TEXT,          -- NULL si sigue activo
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (role_id) REFERENCES Role(id),
     FOREIGN KEY (user_id) REFERENCES "User"(id)
 );
+
+
 
 CREATE TABLE IF NOT EXISTS Turn (
     id INTEGER PRIMARY KEY,
@@ -145,8 +149,12 @@ CREATE TABLE IF NOT EXISTS WasteLog (
 -- ÍNDICES
 -- =========================
 
-CREATE INDEX IF NOT EXISTS idx_sale_turn ON Sale(turn_id);
-CREATE INDEX IF NOT EXISTS idx_sale_employee ON Sale(employee_id);
-CREATE INDEX IF NOT EXISTS idx_saleitem_product ON SaleItem(product_id);
-CREATE INDEX IF NOT EXISTS idx_purchase_ingredient ON IngredientPurchase(ingredient_id);
-CREATE INDEX IF NOT EXISTS idx_waste_turn ON WasteLog(turn_id);
+CREATE INDEX IF NOT EXISTS idx_user_email ON "User"(email);
+CREATE INDEX IF NOT EXISTS idx_user_rut ON "User"(rut);
+CREATE INDEX IF NOT EXISTS idx_employee_rut ON "Employee"(rut);
+CREATE INDEX IF NOT EXISTS idx_employee_user ON "Employee"(user_id);
+CREATE INDEX IF NOT EXISTS idx_sale_turn ON "Sale"(turn_id);
+CREATE INDEX IF NOT EXISTS idx_sale_employee ON "Sale"(employee_id);
+CREATE INDEX IF NOT EXISTS idx_saleitem_product ON "SaleItem"(product_id);
+CREATE INDEX IF NOT EXISTS idx_purchase_ingredient ON "IngredientPurchase"(ingredient_id);
+CREATE INDEX IF NOT EXISTS idx_waste_turn ON "WasteLog"(turn_id);

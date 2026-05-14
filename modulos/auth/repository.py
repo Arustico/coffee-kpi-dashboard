@@ -9,12 +9,24 @@ def user_exists(conn, email: str) -> bool:
 	row = conn.execute("""
 		SELECT id FROM "User" WHERE email = ?
 	""", (email,)).fetchone()
-	return row is not None
+	exists = row is not None
+	return exists
+
+# Existencia del rut
+def user_rut_exists(conn, rut: str) -> bool:
+	"""Verifica si un RUT ya está registrado en usuarios"""
+	row = conn.execute("""
+		SELECT id FROM "User" WHERE rut = ?
+	""", (rut,)).fetchone()
+	exists = row is not None
+	return exists
 
 #-----------------------------------
 # POST Creación de usuario
 #-----------------------------------
-def create_user(conn, email: str, hashed_password: str, full_name: str, role_id: int) -> int:
+def create_user(conn, email: str, hashed_password: str,
+								full_name: str, role_id: int, rut: str = None
+								) -> int:
 	"""Crea un nuevo usuario en la BD"""
 	cursor = conn.execute("""
 		INSERT INTO "User" (email, hashed_password, full_name, role_id)
@@ -27,7 +39,7 @@ def create_user(conn, email: str, hashed_password: str, full_name: str, role_id:
 # GET Consulta de usuario por mail
 #-----------------------------------
 def get_user_by_email(conn, email: str):
-	"""Obtiene usuario por email"""
+	"""Obtiene usuario por email con contraseña (hasheada)"""
 	row = conn.execute("""
 		SELECT id, email, hashed_password, full_name, role_id, active
 		FROM "User" WHERE email = ?
@@ -134,6 +146,59 @@ def activate_user(conn, user_id: int) -> bool:
 		""", (user_id,))
 
 		conn.commit()
+		return True
+
+	except Exception as e:
+		conn.rollback()
+		raise
+
+#-----------------------------------
+# ACTUALIZA un usuario
+#-----------------------------------
+
+def update_user(conn, user_id: int, email: str = None,
+								rut: str = None, full_name: str = None,
+								role_id: int = None
+							) -> bool:
+	"""Actualiza datos de un usuario"""
+	try:
+		user = get_user_by_id(conn, user_id)
+		if user is None:
+			logger.warning(f"Intento de actualizar usuario inexistente: {user_id}")
+			return False
+
+		updates = []
+		params = []
+
+		if email is not None:
+			updates.append("email = ?")
+			params.append(email)
+
+		if rut is not None:
+			updates.append("rut = ?")
+			params.append(rut)
+
+		if full_name is not None:
+			updates.append("full_name = ?")
+			params.append(full_name)
+
+		if role_id is not None:
+			updates.append("role_id = ?")
+			params.append(role_id)
+
+		if not updates:
+			return True
+
+		updates.append("updated_at = CURRENT_TIMESTAMP")
+		params.append(user_id)
+
+		query = f"""
+			UPDATE "User" SET {', '.join(updates)}
+			WHERE id = ?
+		"""
+		conn.execute(query, params)
+		conn.commit()
+		logger.info(f"Usuario actualizado: {user_id}")
 		return True
 
 	except Exception as e:

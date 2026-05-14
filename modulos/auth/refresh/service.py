@@ -34,8 +34,10 @@ def refresh_access_token(data: TokenRefreshRequest):
 			id=user["id"],
 			email=user["email"],
 			full_name=user["full_name"],
+			rut=user["rut"],
 			role_id=user["role_id"],
-			active=bool(user["active"])
+			active=bool(user["active"]),
+			created_at=user["created_at"]
 		)
 		return TokenResponse(
 			access_token=access_token,
