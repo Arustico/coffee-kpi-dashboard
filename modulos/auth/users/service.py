@@ -9,6 +9,10 @@ from modulos.auth.repository import (
     soft_delete_user, activate_user, update_user
     )
 
+#-----------------
+# SERVICES USERS
+#-----------------
+
 #------------------------------------------
 # GET actual perfil del usuario
 #------------------------------------------
