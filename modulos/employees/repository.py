@@ -12,7 +12,7 @@ def employee_rut_exists(conn, rut: str) -> bool:
 	""", (rut,)).fetchone()
 	exists = row is not None
 	if exists:
-	return exists
+		return exists
 
 
 def create_employee(conn,
@@ -118,14 +118,13 @@ def update_employee(conn,
 			UPDATE "Employee" SET {', '.join(updates)}
 			WHERE id = ?
 		"""
-
 		conn.execute(query, params)
 		conn.commit()
 		return True
 
-    except Exception as e:
-			conn.rollback()
-			raise
+	except Exception as e:
+		conn.rollback()
+		raise
 
 def delete_employee(conn, employee_id: int) -> bool:
 	"""Elimina un empleado (eliminación física)"""
@@ -146,7 +145,7 @@ def delete_employee(conn, employee_id: int) -> bool:
 
 
 def desactivate_employee(conn, employee_id: int) -> bool:
-    """Desactiva un empleado (eliminación lógica)"""
+	"""Desactiva un empleado (eliminación lógica)"""
 	try:
 		employee = get_employee_by_id(conn, employee_id)
 		if employee is None:
@@ -157,7 +156,6 @@ def desactivate_employee(conn, employee_id: int) -> bool:
 			WHERE id = ?
 		""", (employee_id,))
 		conn.commit()
-		logger.info(f"Empleado desactivado: {employee_id}")
 		return True
 
 	except Exception as e:
@@ -177,8 +175,8 @@ def activate_employee(conn, employee_id: int) -> bool:
 			WHERE id = ?
 		""", (employee_id,))
 		conn.commit()
-    return True
+		return True
 
 	except Exception as e:
 		conn.rollback()
-    raise
+		raise

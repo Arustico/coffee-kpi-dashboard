@@ -1,14 +1,14 @@
 from fastapi import HTTPException
 from shared.database import get_connection
-from modulos.auth.schemas.auth_schemas import (
-    EmployeeCreate, EmployeeUpdate, EmployeeResponse,
-    EmployeeListResponse, DeleteResponse, StatusUpdateResponse
-)
-from modulos.auth.repository.user_repository import (
-    employee_rut_exists, create_employee, get_employee_by_id,
-    get_all_employees, get_active_employees, update_employee,
-    delete_employee, desactivate_employee, activate_employee
-)
+
+from modulos.auth.schemas import (
+	EmployeeCreate, EmployeeUpdate, EmployeeResponse,
+	EmployeeListResponse, DeleteResponse, StatusUpdateResponse)
+
+from modulos.employees.repository import (
+	employee_rut_exists, create_employee, get_employee_by_id,
+	get_all_employees, get_active_employees, update_employee,
+	delete_employee, desactivate_employee, activate_employee)
 
 
 #------------------------------------------
@@ -71,18 +71,22 @@ def get_all_employees_service():
 	conn = get_connection()
 	try:
 		rows = get_all_employees(conn)
-    employees = [EmployeeResponse(
-			id=row["id"],
-			full_name=row["full_name"],
-			rut=row["rut"],
-			role_id=row["role_id"],
-			user_id=row["user_id"],
-			active=bool(row["active"]),
-			phone=row["phone"],
-			address=row["address"],
-			hire_date=row["hire_date"],
-			created_at=row["created_at"]
-		) for row in rows]
+		employees = []
+		for row in rows:
+			employees.append(
+				EmployeeResponse(
+					id=row["id"],
+					full_name=row["full_name"],
+					rut=row["rut"],
+					role_id=row["role_id"],
+					user_id=row["user_id"],
+					active=bool(row["active"]),
+					phone=row["phone"],
+					address=row["address"],
+					hire_date=row["hire_date"],
+					created_at=row["created_at"]
+				)
+			)
 
 		return EmployeeListResponse(
 			employees=employees,
@@ -138,7 +142,7 @@ def get_employee_service(employee_id: int):
 	conn = get_connection()
 
 	try:
-	employee = get_employee_by_id(conn, employee_id)
+		employee = get_employee_by_id(conn, employee_id)
 		if employee is None:
 			raise HTTPException(
 				status_code=404,

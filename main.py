@@ -11,6 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from modulos.auth.register.api import router as register_router
 from modulos.auth.login.api import router as login_router
 from modulos.auth.refresh.api import router as refresh_router
+from modulos.auth.users.api import router as users_router
+from modulos.employees.api import router as employees_router
 
 # Ventas
 from modulos.ventas.create_sale.api import router as create_sales_router
@@ -39,6 +41,8 @@ app.add_middleware(
 # Include routers
 app.include_router(register_router)
 app.include_router(login_router)
+app.include_router(users_router)
+app.include_router(employees_router)
 app.include_router(refresh_router)
 app.include_router(create_sales_router)
 app.include_router(get_sale_router)

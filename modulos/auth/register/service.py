@@ -8,7 +8,7 @@ from shared.security.jwt_handler import create_access_token, create_refresh_toke
 from modulos.auth.schemas import UserRegister, TokenResponse, UserResponse
 from modulos.auth.repository import user_exists, create_user, create_user, get_user_by_id
 
-    )
+
 #-----------------
 # SERVICE REGISTER
 #-----------------

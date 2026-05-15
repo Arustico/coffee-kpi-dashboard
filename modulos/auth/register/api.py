@@ -2,7 +2,6 @@ from fastapi import APIRouter
 from modulos.auth.schemas import UserRegister
 from modulos.auth.register.service import register_user
 
-    )
 #-----------------
 # API REGISTER
 #-----------------

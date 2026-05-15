@@ -6,7 +6,7 @@ from modulos.auth.schemas import (
     )
 from modulos.auth.repository import (
     get_all_users, get_user_by_id, delete_user,
-    soft_delete_user, activate_user, update_user
+    desactivate_user, activate_user, update_user
     )
 
 #-----------------
@@ -175,27 +175,24 @@ def update_user_service(user_id: int, data: UserUpdate, admin_user):
 	finally:
 		conn.close()
 
-
 def update_user_status_service(user_id: int, active: bool, admin_user):
 	"""Activa o desactiva un usuario"""
 	# Validar que no se desactive a sí mismo
 	if admin_user["id"] == user_id and not active:
 		raise HTTPException(
 			status_code=400,
-			detail="No puedes desactivar tu propia cuenta"
-		)
+			detail="No puedes desactivar tu propia cuenta")
 	conn = get_connection()
 	try:
 		if active:
 			success = activate_user(conn, user_id)
 		else:
-			success = soft_delete_user(conn, user_id)
+			success = desactivate_user(conn, user_id)
 
 		if not success:
 			raise HTTPException(
 				status_code=404,
-				detail="Usuario no encontrado"
-			)
+				detail="Usuario no encontrado")
 
 		action = "activado" if active else "desactivado"
 		return StatusUpdateResponse(

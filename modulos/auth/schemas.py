@@ -158,13 +158,10 @@ class UserUpdate(BaseModel):
 class UserStatusUpdate(BaseModel):
 	"""Datos para cambiar el estado de un usuario"""
 	active: bool = Field(description="True para activar, False para desactivar")
-
 	class Config:
 		json_schema_extra = {
-			"example": {
-				"active": False
-				}
-			}
+			"example": {"active": False}
+	}
 
 
 class UserListResponse(BaseModel):

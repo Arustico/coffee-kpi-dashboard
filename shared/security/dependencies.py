@@ -1,12 +1,12 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthCredentials
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from shared.security.jwt_handler import verify_token
 from shared.database import get_connection
 from modulos.auth.repository import get_user_by_id
 
 security = HTTPBearer()
 
-async def get_current_user(credentials: HTTPAuthCredentials = Depends(security)):
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
 	"""
 		Valida el token JWT y retorna el usuario actual
 		Esta función actúa como GUARDIÁN: Se ejecuta ANTES de cualquier endpoint protegido.

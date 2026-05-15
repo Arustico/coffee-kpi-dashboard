@@ -1,16 +1,17 @@
+
 from fastapi import APIRouter, Depends
 from shared.security.dependencies import get_current_user, get_current_admin
+
 # Moduloes schemas
 from modulos.auth.schemas import (
-    UserResponse, UserUpdate, UserListResponse,
-    DeleteResponse, StatusUpdateResponse
-    )
+	UserResponse, UserUpdate, UserListResponse,
+	DeleteResponse, StatusUpdateResponse)
+
 # Modulos usuarios
 from modulos.auth.users.service import (
-    get_current_user_profile, get_all_users_service,
-    get_user_service, delete_user_service,
-    update_user_service, update_user_status_service
-    )
+	get_current_user_profile, get_all_users_service,
+	get_user_service, delete_user_service,
+	update_user_service, update_user_status_service)
 #-----------------
 # API USERS
 #-----------------
