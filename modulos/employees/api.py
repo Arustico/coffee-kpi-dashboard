@@ -13,6 +13,12 @@ from modulos.employees.service import (
 	update_employee_status_service
 	)
 
+
+#---------------------------------
+# API EMPLOYEES
+#---------------------------------
+
+
 router = APIRouter(prefix="/employees", tags=["employees"])
 
 @router.post(
