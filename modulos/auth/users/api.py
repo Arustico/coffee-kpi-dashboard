@@ -4,7 +4,7 @@ from shared.security.dependencies import get_current_user, get_current_admin
 
 # Moduloes schemas
 from modulos.auth.schemas import (
-	UserResponse, UserUpdate, UserListResponse,
+	UserResponse, UserUpdate, UserListResponse,UserStatusUpdate,
 	DeleteResponse, StatusUpdateResponse)
 
 # Modulos usuarios

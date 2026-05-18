@@ -106,7 +106,6 @@ def update_user_role_id(conn, user_id: int, role_id: int):
 		WHERE id = ?
 	""", (role_id, user_id))
 
-
 def update_user_last_login(conn, user_id: int):
 	"""Actualiza timestamp de último login"""
 	conn.execute("""
@@ -115,7 +114,7 @@ def update_user_last_login(conn, user_id: int):
 	""", (user_id,))
 
 
-def deactivate_user(conn, user_id: int):
+def desactivate_user(conn, user_id: int):
 	"""Desactiva un usuario (soft delete)"""
 	conn.execute("""
 		UPDATE "User" SET active = 0, updated_at = CURRENT_TIMESTAMP
@@ -135,14 +134,6 @@ def delete_user(conn, user_id: int):
 	"""Elimina un usuario de forma permanente (hard delete)"""
 	conn.execute("""
 		DELETE FROM "User" WHERE id = ?
-	""", (user_id,))
-
-
-def update_last_login(conn, user_id: int):
-	"""Actualiza el último login del usuario"""
-	conn.execute("""
-		UPDATE "User" SET updated_at = CURRENT_TIMESTAMP
-		WHERE id = ?
 	""", (user_id,))
 
 
@@ -255,7 +246,7 @@ def update_employee_address(conn, employee_id: int, address: str):
 	""", (address, employee_id))
 
 
-def deactivate_employee(conn, employee_id: int):
+def desactivate_employee(conn, employee_id: int):
 	"""Desactiva un empleado (soft delete)"""
 	conn.execute("""
 		UPDATE "Employee" SET active = 0, updated_at = CURRENT_TIMESTAMP

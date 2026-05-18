@@ -104,8 +104,9 @@ class TokenResponse(BaseModel):
 					"email": "contador@cafe.com",
 					"full_name": "Carlos Gómez",
 					"rut": "12345678-K",
-					"role_id": 2,
-					"active": True
+					"role_id": 1,
+					"active": True,
+					"created_at":"01/01/2025"
 					}
 				}
 		}
