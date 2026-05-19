@@ -4,6 +4,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Logs Errores
+import logging
+logger = logging.getLogger(__name__)
+
+
 #-------------------------
 # Routers
 #-------------------------
@@ -17,6 +22,9 @@ from modulos.employees.api import router as employees_router
 # Ventas
 from modulos.ventas.create_sale.api import router as create_sales_router
 from modulos.ventas.get_sale.api import router as get_sale_router
+
+# Insumos
+from modulos.insumos.api import router as ingredients_router
 
 #-------------------------
 # Inicio app:
@@ -39,6 +47,7 @@ app.add_middleware(
 
 
 # Include routers
+logger.info("Cargando routers...")
 app.include_router(register_router)
 app.include_router(login_router)
 app.include_router(users_router)
@@ -46,6 +55,8 @@ app.include_router(employees_router)
 app.include_router(refresh_router)
 app.include_router(create_sales_router)
 app.include_router(get_sale_router)
+app.include_router(ingredients_router)
+logger.info("Routers cargadas con éxito!")
 
 # Mensaje
 @app.get("/")
