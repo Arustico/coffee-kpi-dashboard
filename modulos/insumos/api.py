@@ -39,8 +39,7 @@ router = APIRouter(prefix="/ingredients", tags=["ingredients"])
 )
 def create_supplier(
   data: SupplierCreate,
-  admin = Depends(get_current_user)
-  #admin = Depends(get_current_admin)
+  admin = Depends(get_current_admin)
 ):
   """Crea un nuevo proveedor"""
   return create_supplier_service(data, admin)
