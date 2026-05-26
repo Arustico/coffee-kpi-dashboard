@@ -4,6 +4,24 @@ from fastapi import HTTPException
 #---------------------------------
 # REPOSITORY EMPLOYEES
 #---------------------------------
+def employee_exists(conn, employee_id: int) -> bool:
+  """Verifica si un empleado existe"""
+  row = conn.execute("""
+    SELECT id FROM Employee WHERE id = ?
+  """, (employee_id,)).fetchone()
+
+  return row is not None
+
+def employee_is_active(conn, employee_id: int) -> bool:
+  """Verifica si un empleado está activo"""
+  row = conn.execute("""
+    SELECT active FROM Employee WHERE id = ?
+  """, (employee_id,)).fetchone()
+
+  if row is None:
+    return False
+
+  return bool(row["active"])
 
 def employee_rut_exists(conn, rut: str) -> bool:
 	"""Verifica si un RUT ya está registrado en empleados"""
