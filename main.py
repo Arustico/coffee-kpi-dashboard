@@ -29,6 +29,9 @@ from modulos.insumos.api import router as ingredients_router
 # merma
 from modulos.merma.api import router as merma_router
 
+#Kpis
+from modulos.kpis.api import router as kpis_router
+
 #-------------------------
 # Inicio app:
 #-------------------------
@@ -60,6 +63,7 @@ app.include_router(create_sales_router)
 app.include_router(get_sale_router)
 app.include_router(ingredients_router)
 app.include_router(merma_router)
+app.include_router(kpis_router)
 logger.info("Routers cargadas con éxito!")
 
 # Mensaje
