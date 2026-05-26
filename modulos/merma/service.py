@@ -24,10 +24,10 @@ from modulos.insumos.repository import (
   ingredient_exists, ingredient_is_active, get_ingredient_by_id,
   get_ingredient_stock_cost
 )
-from modulos.auth.repository.user_repository import (
+from modulos.employees.repository import (
   employee_exists, employee_is_active
 )
-from modulos.ventas.repository import get_turn_by_id
+from modulos.ventas.create_sale.repository import get_turn_by_id
 import logging
 
 logger = logging.getLogger(__name__)
