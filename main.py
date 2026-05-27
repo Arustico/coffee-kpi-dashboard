@@ -30,7 +30,7 @@ from modulos.insumos.api import router as ingredients_router
 from modulos.merma.api import router as merma_router
 
 #Kpis
-from modulos.kpis.api import router as kpis_router
+from modulos.KPIs.api import router as kpis_router
 
 #-------------------------
 # Inicio app:

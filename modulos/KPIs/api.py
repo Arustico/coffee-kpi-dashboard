@@ -5,13 +5,13 @@ Rutas HTTP
 
 from fastapi import APIRouter, Depends, Query
 from shared.security.dependencies import get_current_user
-from modulos.kpis.schemas import (
+from modulos.KPIs.schemas import (
   RevenueResponse, ProductRevenueListResponse,
   CogsResponse, GrossProfitResponse, ProductMarginListResponse,
   WasteRatioResponse, DailySalesResponse, TurnSalesResponse, EmployeeSalesResponse,
   DashboardMetricsResponse, DateRangeRequest
 )
-from modulos.kpis.service import (
+from modulos.KPIs.service import (
   get_total_revenue_service, get_revenue_by_date_range_service,
   get_all_products_revenue_service, get_top_products_service,
   get_gross_profit_service, get_cogs_service, get_product_margins_service,
@@ -179,7 +179,7 @@ def get_waste_ratio_by_date_range(
   description="Obtiene resumen de ventas de un día específico"
 )
 def get_daily_sales(
-  date: str = Query(description="Fecha (YYYY-MM-DD)"),
+  date: str,
   current_user = Depends(get_current_user)
 ):
   """

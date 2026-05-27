@@ -5,7 +5,7 @@ Lógica de negocio, validaciones
 
 from fastapi import HTTPException
 from shared.database import get_connection
-from modulos.kpis.repository import (
+from modulos.KPIs.repository import (
   get_total_revenue, get_revenue_by_date_range, get_revenue_by_turn, get_revenue_by_employee,
   get_daily_revenue, get_product_revenue, get_all_products_revenue, get_top_products,
   get_product_cost, get_total_cogs, get_gross_profit, get_gross_margin_percentage,
@@ -13,7 +13,7 @@ from modulos.kpis.repository import (
   get_daily_sales_summary, get_sales_by_turn_summary, get_sales_by_employee_summary,
   get_dashboard_metrics
 )
-from modulos.kpis.schemas import (
+from modulos.KPIs.schemas import (
   RevenueResponse, ProductRevenueResponse, ProductRevenueListResponse,
   CogsResponse, GrossProfitResponse, ProductMarginResponse, ProductMarginListResponse,
   WasteRatioResponse, DailySalesResponse, TurnSalesResponse, EmployeeSalesResponse,
