@@ -22,15 +22,14 @@ from modulos.employees.api import router as employees_router
 # Ventas
 from modulos.ventas.create_sale.api import router as create_sales_router
 from modulos.ventas.get_sale.api import router as get_sale_router
-
 # Insumos
 from modulos.insumos.api import router as ingredients_router
-
-# merma
+# Merma
 from modulos.merma.api import router as merma_router
-
-#Kpis
+# Kpis
 from modulos.KPIs.api import router as kpis_router
+# Roles
+from modulos.roles.api import router as roles_router
 
 #-------------------------
 # Inicio app:
@@ -64,6 +63,7 @@ app.include_router(get_sale_router)
 app.include_router(ingredients_router)
 app.include_router(merma_router)
 app.include_router(kpis_router)
+app.include_router(roles_router)
 logger.info("Routers cargadas con éxito!")
 
 # Mensaje
