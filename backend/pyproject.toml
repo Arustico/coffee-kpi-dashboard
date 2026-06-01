@@ -1,0 +1,28 @@
+[project]
+name = "coffee-kpi-dashboard"
+version = "0.1.0"
+description = "APP para registrar, medir y mostrar principales KPI de una cafetería"
+authors = [
+    {name = "Ariel Nunez S."}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "fastapi (>=0.136.1,<0.137.0)",
+    "uvicorn (>=0.46.0,<0.47.0)",
+    "python-jose (>=3.5.0,<4.0.0)",
+    "passlib (>=1.7.4,<2.0.0)",
+    "pydantic-settings (>=2.14.0,<3.0.0)",
+    "python-multipart (>=0.0.27,<0.0.28)",
+    "pydantic[email] (>=2.13.4,<3.0.0)",
+    "bcrypt (==5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "./"}]  # o el nombre de tu paquete raíz
