@@ -1,0 +1,86 @@
+*.pyc  [error opening dir]
+./
+├── database
+│   ├── coffee_main_sgc.db
+│   ├── schema.sql
+│   └── views.sql
+├── doc
+│   └── doc-modelo-datos.md
+├── __init__.py
+├── main.py
+├── modulos
+│   ├── auth
+│   │   ├── login
+│   │   │   ├── api.py
+│   │   │   ├── __pycache__
+│   │   │   └── service.py
+│   │   ├── __pycache__
+│   │   │   ├── repository.cpython-314.pyc
+│   │   │   └── schemas.cpython-314.pyc
+│   │   ├── refresh
+│   │   │   ├── api.py
+│   │   │   ├── __pycache__
+│   │   │   └── service.py
+│   │   ├── register
+│   │   │   ├── api.py
+│   │   │   ├── __pycache__
+│   │   │   └── service.py
+│   │   ├── repository.py
+│   │   ├── schemas.py
+│   │   └── users
+│   │       ├── api.py
+│   │       ├── __pycache__
+│   │       └── service.py
+│   ├── employees
+│   │   ├── api.py
+│   │   ├── __pycache__
+│   │   │   ├── api.cpython-314.pyc
+│   │   │   ├── repository.cpython-314.pyc
+│   │   │   └── service.cpython-314.pyc
+│   │   ├── repository.py
+│   │   └── service.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-314.pyc
+│   └── ventas
+│       ├── create_sale
+│       │   ├── api.py
+│       │   ├── __pycache__
+│       │   ├── repository.py
+│       │   ├── schemas.py
+│       │   └── service.py
+│       ├── get_daily_sales
+│       │   ├── api.py
+│       │   ├── repository.py
+│       │   ├── schemas.py
+│       │   └── service.py
+│       └── get_sale
+│           ├── api.py
+│           ├── __pycache__
+│           ├── repository.py
+│           ├── schemas.py
+│           └── service.py
+├── poetry.lock
+├── __pycache__
+│   └── main.cpython-314.pyc
+├── pyproject.toml
+├── README.md
+├── scripts
+│   ├── seed_data.py
+│   └── test_schema.py
+└── shared
+    ├── database.py
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── database.cpython-314.pyc
+    │   └── __init__.cpython-314.pyc
+    └── security
+        ├── dependencies.py
+        ├── hash.py
+        ├── jwt_handler.py
+        └── __pycache__
+            ├── dependencies.cpython-314.pyc
+            ├── hash.cpython-314.pyc
+            └── jwt_handler.cpython-314.pyc
+
+29 directories, 54 files

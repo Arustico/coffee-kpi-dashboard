@@ -1,25 +1,25 @@
-# Bases de Datos
-*.db
+# Backend
+backend/.venv/
+backend/__pycache__/
+backend/*.db
+backend/.env
+backend/*.egg-info/
+backend/dist/
+backend/build/
 
-# Environment
-__init__*
-__pycache__
-.env
-.env.local
-.env.*.local
-*
-# IDE
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
-*.kate-swp
 
-# Logs
-*.log
-logs/
-
-#folders
-.tmp/
+# OS
+Thumbs.db
