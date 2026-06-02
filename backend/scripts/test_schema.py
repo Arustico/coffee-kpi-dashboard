@@ -1,7 +1,5 @@
 import sqlite3
 
-
-
 def test_schema():
 
   conn = sqlite3.connect(":memory:") #BD en la RAM (más rápida)
