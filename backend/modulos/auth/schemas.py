@@ -33,9 +33,9 @@ class UserRegister(BaseModel):
 	class Config:
 		json_schema_extra = {
 			"example": {
-				"email": "contador@cafe.com",
+				"email": "mi-email@cafe.com",
 				"password": "MiPassword123!",
-				"full_name": "León Leonidas",
+				"full_name": "León Ramonina",
 				"rut": "12345678-K",  # Opcional
 				"role_id": 2  # Contador
 			}
@@ -50,7 +50,7 @@ class UserLogin(BaseModel):
 	class Config:
 		json_schema_extra = {
 			"example": {
-				"email": "contador@cafe.com",
+				"email": "mi_email@cafe.com",
 				"password": "MiPassword123!"
 			}
 		}

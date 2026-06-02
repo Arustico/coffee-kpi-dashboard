@@ -9,5 +9,6 @@ from modulos.auth.register.service import register_user
 router = APIRouter(tags=["auth"])
 
 @router.post("/auth/register", status_code=201)
-def register_endpoint(data: UserRegister):
+def register_endpoint(data: UserRegister,
+					admin = Depends(get_current_admin)):
 	return register_user(data)

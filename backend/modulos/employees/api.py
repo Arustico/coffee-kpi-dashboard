@@ -82,8 +82,8 @@ def get_employee(employee_id: int, admin = Depends(get_current_admin)):
 	description="Solo administradores"
 )
 def update_employee(employee_id: int,
-										data: EmployeeUpdate,
-										admin = Depends(get_current_admin)):
+					data: EmployeeUpdate,
+					admin = Depends(get_current_admin)):
 	"""
 	Actualiza datos de un empleado
 - **full_name**: Nuevo nombre (opcional)

@@ -59,9 +59,9 @@ def get_user(user_id: int, admin = Depends(get_current_admin)):
 	summary="Actualizar usuario",
 	description="Solo administradores pueden actualizar usuarios"
 )
-def update_user(user_id: int, data: UserUpdate,
-								admin = Depends(get_current_admin)
-								):
+def update_user(user_id: int, 
+				data: UserUpdate,
+				admin = Depends(get_current_admin)):
 	"""
 	Actualiza datos de un usuario:
 	- **email**: Nuevo email (opcional)
