@@ -130,19 +130,7 @@ export default function LoginPage() {
               <span className="px-2 bg-white text-gray-500">O</span>
             </div>
           </div>
-
-          {/* Register Link */}
-          <p className="text-center text-gray-600 text-sm">
-            ¿No tienes cuenta?{' '}
-            <Link
-              to="/register"
-              className="text-coffee-600 hover:text-coffee-700 font-semibold transition"
-            >
-              Regístrate aquí
-            </Link>
-          </p>
         </div>
-
         {/* Footer */}
         <p className="text-center text-gray-500 text-xs mt-6">
           © 2026 Coffee KPI Dashboard. Todos los derechos reservados.
