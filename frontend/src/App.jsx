@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css';   
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useAuthStore from './store/authStore';
 
 // Páginas
 import LoginPage from './pages/auth/LoginPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
+import SalesPage from './pages/operations/SalesPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 // Layouts
@@ -16,11 +17,6 @@ import PrivateRoute from './components/common/PrivateRoute';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-  // PRUEBA TEMPORAL
-  console.log('App cargó correctamente');
-  console.log('isAuthenticated:', isAuthenticated);
-  console.log('API URL:', import.meta.env.VITE_API_URL);
 
   return (
     <BrowserRouter>
@@ -39,7 +35,7 @@ function App() {
         {/* Auth Routes */}
         <Route path="/login" element={<LoginPage />} />
 
-       {/* Protected Routes con MainLayout */}
+        {/* Protected Routes con MainLayout */}
         <Route
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
@@ -48,6 +44,7 @@ function App() {
           }
         >
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard/sales" element={<SalesPage />} />
         </Route>
 
         {/* Redirect */}
