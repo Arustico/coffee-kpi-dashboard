@@ -5,9 +5,11 @@ import useAuthStore from './store/authStore';
 
 // Páginas
 import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
 import NotFoundPage from './pages/NotFoundPage';
+
+// Layouts
+import MainLayout from './components/layout/MainLayout';
 
 // Componentes
 import PrivateRoute from './components/common/PrivateRoute';
@@ -36,21 +38,21 @@ function App() {
       <Routes>
         {/* Auth Routes */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
 
-        {/* Protected Routes */}
+       {/* Protected Routes con MainLayout */}
         <Route
-          path="/dashboard"
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
-              <DashboardPage />
+              <MainLayout />
             </PrivateRoute>
           }
-        />
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+        </Route>
 
         {/* Redirect */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
