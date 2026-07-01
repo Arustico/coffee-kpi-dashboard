@@ -256,6 +256,17 @@ def get_total_purchase_amount(conn, purchase_id: int) -> float:
   return row["total"]
 
 
+def get_all_products(conn):
+  """Obtiene lista de todos los productos activos"""
+  rows = conn.execute("""
+    SELECT id, name, base_price
+    FROM Product
+    WHERE active = 1
+    ORDER BY name
+  """).fetchall()
+  return rows
+
+
 def get_ingredient_stock_cost(conn, ingredient_id: int) -> dict:
   """
   Obtiene el costo promedio y cantidad total de un ingrediente

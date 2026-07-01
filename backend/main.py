@@ -35,16 +35,16 @@ from modulos.roles.api import router as roles_router
 # Inicio app:
 #-------------------------
 app = FastAPI(
-	title="Coffee KPI Dashboard API",
-	description="API para gestión de datos y KPIs para cafetería",
-	version="0.1.0",
-	contact={"name": "Ariel Nuñez Salinas", "contact":"ariel.nunez.sa@protonmail.com"}
+    title="Coffee KPI Dashboard API",
+    description="API para gestión de datos y KPIs para cafetería",
+    version="0.1.0",
+    contact={"name": "Ariel Nuñez Salinas", "contact":"ariel.nunez.sa@protonmail.com"}
 	)
 
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):(517[3-6]|3000|8080)",
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):(517[3-6]|3000|8080|8000)",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"], #["Content-Type", "Authorization", "X-Requested-With"],

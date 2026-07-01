@@ -14,14 +14,15 @@ from modulos.insumos.repository import (
   create_ingredient_purchase, get_purchase_by_id, get_all_purchases,
   get_purchases_by_ingredient, get_purchases_by_supplier,
   get_purchases_by_date_range, delete_purchase,
-  get_total_purchase_amount, get_ingredient_stock_cost
+  get_total_purchase_amount, get_ingredient_stock_cost,
+  get_all_products
 )
 from modulos.insumos.schemas import (
   SupplierCreate, SupplierResponse, SupplierListResponse, SupplierCreateResponse,
   IngredientResponse, IngredientListResponse, IngredientUnitResponse,
   IngredientPurchaseCreate, IngredientPurchaseResponse, IngredientPurchaseListResponse,
   PurchaseCreateResponse, PurchaseDeleteResponse, IngredientStockResponse,
-  PurchaseDateFilterRequest
+  PurchaseDateFilterRequest, ProductItemResponse, ProductListResponse
 )
 import logging
 
@@ -245,6 +246,28 @@ def get_ingredient_stock_service(ingredient_id: int):
       status_code=500,
       detail="Error al obtener stock"
     )
+  finally:
+    conn.close()
+
+
+# ==========================================
+# PRODUCT SERVICES
+# ==========================================
+
+def get_all_products_service():
+  """Obtiene lista de todos los productos activos"""
+  conn = get_connection()
+  try:
+    rows = get_all_products(conn)
+    products = [
+      ProductItemResponse(id=row["id"], name=row["name"], base_price=row["base_price"])
+      for row in rows
+    ]
+    return ProductListResponse(items=products, total=len(products))
+  except HTTPException:
+    raise
+  except Exception as e:
+    raise HTTPException(status_code=500, detail="Error al obtener productos")
   finally:
     conn.close()
 

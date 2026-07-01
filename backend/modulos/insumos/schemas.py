@@ -27,7 +27,7 @@ class IngredientPurchaseCreate(BaseModel):
   """Datos para crear una compra de ingrediente"""
   ingredient_id: int = Field(gt=0, description="ID del ingrediente")
   quantity: float = Field(gt=0, description="Cantidad comprada")
-  unit_cost: float = Field(gt=0, description="Costo unitario")
+  unit_cost: float = Field(ge=0, description="Costo unitario")
   supplier_id: Optional[int] = Field(None, description="ID del proveedor (opcional)")
 
   class Config:
@@ -213,6 +213,22 @@ class PurchaseDeleteResponse(BaseModel):
         "purchase_id": 1
       }
     }
+
+
+class ProductItemResponse(BaseModel):
+  """Respuesta de producto"""
+  id: int
+  name: str
+  base_price: float
+
+  class Config:
+    from_attributes = True
+
+
+class ProductListResponse(BaseModel):
+  """Lista de productos"""
+  items: List[ProductItemResponse]
+  total: int
 
 
 class IngredientStockResponse(BaseModel):

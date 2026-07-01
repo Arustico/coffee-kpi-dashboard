@@ -1,4 +1,6 @@
 from fastapi import HTTPException
+from pydantic import BaseModel
+from typing import List
 from shared.database import get_connection
 
 from modulos.auth.schemas import (
@@ -8,7 +10,8 @@ from modulos.auth.schemas import (
 from modulos.employees.repository import (
 	employee_rut_exists, create_employee, get_employee_by_id,
 	get_all_employees, get_active_employees, update_employee,
-	delete_employee, desactivate_employee, activate_employee)
+	delete_employee, desactivate_employee, activate_employee,
+	get_all_turns)
 
 
 #------------------------------------------
@@ -53,8 +56,10 @@ def create_employee_service(data: EmployeeCreate, admin_user):
 			phone=employee["phone"],
 			address=employee["address"],
 			hire_date=employee["hire_date"],
-			created_at=employee["created_at"]
+			created_at=employee["updated_at"]
 		)
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
@@ -84,15 +89,17 @@ def get_all_employees_service():
 					phone=row["phone"],
 					address=row["address"],
 					hire_date=row["hire_date"],
-					created_at=row["created_at"]
+					created_at=row["updated_at"]
 				)
 			)
 
 		return EmployeeListResponse(
-			employees=employees,
+			items=employees,
 			total=len(employees)
 		)
 
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
@@ -100,6 +107,7 @@ def get_all_employees_service():
 		)
 	finally:
 		conn.close()
+
 
 #------------------------------------------
 # GET empleados activos
@@ -120,19 +128,22 @@ def get_active_employees_service():
 			phone=row["phone"],
 			address=row["address"],
 			hire_date=row["hire_date"],
-			created_at=row["created_at"]) for row in rows]
+			created_at=row["updated_at"]) for row in rows]
 
 		return EmployeeListResponse(
-			employees=employees,
+			items=employees,
 			total=len(employees)
 		)
 
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
 			detail="Error al obtener empleados activos")
 	finally:
 		conn.close()
+
 
 #------------------------------------------
 # GET datos de un empleado
@@ -158,9 +169,11 @@ def get_employee_service(employee_id: int):
 			phone=employee["phone"],
 			address=employee["address"],
 			hire_date=employee["hire_date"],
-			created_at=employee["created_at"])
+			created_at=employee["updated_at"])
 		return response
 
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
@@ -168,6 +181,7 @@ def get_employee_service(employee_id: int):
 			)
 	finally:
 		conn.close()
+
 
 #------------------------------------------
 # UPDATE datos de empleado
@@ -205,10 +219,12 @@ def update_employee_service(employee_id: int, data: EmployeeUpdate, admin_user):
 			phone=employee["phone"],
 			address=employee["address"],
 			hire_date=employee["hire_date"],
-			created_at=employee["created_at"]
+			created_at=employee["updated_at"]
 		)
 		return response
 
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
@@ -216,6 +232,7 @@ def update_employee_service(employee_id: int, data: EmployeeUpdate, admin_user):
 		)
 	finally:
 		conn.close()
+
 
 #------------------------------------------
 # DEL empleado permanentemente
@@ -234,7 +251,8 @@ def delete_employee_service(employee_id: int, admin_user):
 		return DeleteResponse(
 			message="Empleado eliminado exitosamente",
 			id=employee_id)
-
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,
@@ -242,6 +260,34 @@ def delete_employee_service(employee_id: int, admin_user):
 
 	finally:
 		conn.close()
+
+
+class TurnResponse(BaseModel):
+  id: int
+  label: str
+
+class TurnListResponse(BaseModel):
+  items: List[TurnResponse]
+  total: int
+
+
+#------------------------------------------
+# GET todos los turnos
+#------------------------------------------
+def get_all_turns_service():
+  """Obtiene lista de todos los turnos activos"""
+  conn = get_connection()
+  try:
+    rows = get_all_turns(conn)
+    turns = [TurnResponse(id=row["id"], label=row["label"]) for row in rows]
+    return TurnListResponse(items=turns, total=len(turns))
+  except HTTPException:
+    raise
+  except Exception as e:
+    raise HTTPException(status_code=500, detail="Error al obtener turnos")
+  finally:
+    conn.close()
+
 
 #------------------------------------------
 # UPDATE estado de un empleado
@@ -254,7 +300,7 @@ def update_employee_status_service(employee_id: int, active: bool, admin_user):
 		if active:
 			success = activate_employee(conn, employee_id)
 		else:
-			success = soft_delete_employee(conn, employee_id)
+			success = desactivate_employee(conn, employee_id)
 
 		if not success:
 			raise HTTPException(
@@ -267,6 +313,8 @@ def update_employee_status_service(employee_id: int, active: bool, admin_user):
 			id=employee_id,
 			active=active)
 
+	except HTTPException:
+		raise
 	except Exception as e:
 		raise HTTPException(
 			status_code=500,

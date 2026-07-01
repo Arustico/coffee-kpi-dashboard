@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from shared.security.dependencies import get_current_admin
+from shared.security.dependencies import get_current_admin, get_current_user
 
 from modulos.auth.schemas import (
 	EmployeeCreate, EmployeeUpdate, EmployeeResponse,
@@ -10,7 +10,8 @@ from modulos.employees.service import (
 	create_employee_service, get_all_employees_service,
 	get_active_employees_service, get_employee_service,
 	update_employee_service, delete_employee_service,
-	update_employee_status_service
+	update_employee_status_service, get_all_turns_service,
+	TurnListResponse
 	)
 
 
@@ -62,6 +63,17 @@ def list_employees(admin = Depends(get_current_admin)):
 def list_active_employees(admin = Depends(get_current_admin)):
 	"""Obtiene lista de empleados activos"""
 	return get_active_employees_service()
+
+
+@router.get(
+	"/turns",
+	response_model=TurnListResponse,
+	summary="Listar turnos",
+	description="Obtiene lista de todos los turnos activos"
+)
+def list_turns(current_user = Depends(get_current_user)):
+	"""Obtiene lista de todos los turnos"""
+	return get_all_turns_service()
 
 
 @router.get(

@@ -30,7 +30,8 @@ def employee_rut_exists(conn, rut: str) -> bool:
 	""", (rut,)).fetchone()
 	exists = row is not None
 	if exists:
-		return exists
+		return True
+	return False
 
 
 def create_employee(conn,
@@ -42,8 +43,8 @@ def create_employee(conn,
 	"""
 	try:
 		cursor = conn.execute("""
-			INSERT INTO "Employee" (full_name, rut, role_id, user_id, phone, address)
-			VALUES (?, ?, ?, ?, ?, ?)
+			INSERT INTO "Employee" (full_name, rut, role_id, user_id, phone, address, hire_date)
+			VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
 		""", (full_name, rut, role_id, user_id, phone, address))
 
 		conn.commit()
@@ -58,7 +59,7 @@ def create_employee(conn,
 def get_employee_by_id(conn, employee_id: int):
 	"""Obtiene empleado por ID"""
 	row = conn.execute("""
-		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, created_at
+		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, updated_at
 		FROM "Employee" WHERE id = ?
 	""", (employee_id,)).fetchone()
 	return row
@@ -67,7 +68,7 @@ def get_employee_by_id(conn, employee_id: int):
 def get_employee_by_rut(conn, rut: str):
 	"""Obtiene empleado por RUT"""
 	row = conn.execute("""
-		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, created_at
+		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, updated_at
 		FROM "Employee" WHERE rut = ?
 	""", (rut,)).fetchone()
 	return row
@@ -76,9 +77,9 @@ def get_employee_by_rut(conn, rut: str):
 def get_all_employees(conn):
 	"""Obtiene lista de todos los empleados"""
 	rows = conn.execute("""
-		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, created_at
+		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, updated_at
 		FROM "Employee"
-		ORDER BY created_at DESC
+		ORDER BY id DESC
 	""").fetchall()
 	return rows
 
@@ -86,7 +87,7 @@ def get_all_employees(conn):
 def get_active_employees(conn):
 	"""Obtiene lista de empleados activos"""
 	rows = conn.execute("""
-		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, created_at
+		SELECT id, full_name, rut, role_id, user_id, active, phone, address, hire_date, updated_at
 		FROM "Employee"
 		WHERE active = 1
 		ORDER BY full_name
@@ -179,6 +180,17 @@ def desactivate_employee(conn, employee_id: int) -> bool:
 	except Exception as e:
 		conn.rollback()
 		raise
+
+
+def get_all_turns(conn):
+  """Obtiene lista de todos los turnos activos"""
+  rows = conn.execute("""
+    SELECT id, label
+    FROM Turn
+    WHERE active = 1
+    ORDER BY id
+  """).fetchall()
+  return rows
 
 
 def activate_employee(conn, employee_id: int) -> bool:

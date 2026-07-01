@@ -10,11 +10,12 @@ from modulos.insumos.schemas import (
   IngredientResponse, IngredientListResponse,
   IngredientPurchaseCreate, IngredientPurchaseResponse, IngredientPurchaseListResponse,
   PurchaseCreateResponse, PurchaseDeleteResponse, IngredientStockResponse,
-  PurchaseDateFilterRequest
+  PurchaseDateFilterRequest, ProductListResponse
 )
 from modulos.insumos.service import (
   create_supplier_service, get_all_suppliers_service, get_supplier_service,
   get_all_ingredients_service, get_ingredient_service, get_ingredient_stock_service,
+  get_all_products_service,
   create_purchase_service, get_all_purchases_service, get_purchase_service,
   get_purchases_by_ingredient_service, get_purchases_by_supplier_service,
   get_purchases_by_date_range_service, delete_purchase_service
@@ -83,6 +84,21 @@ def get_supplier(
 def list_ingredients(current_user = Depends(get_current_user)):
   """Obtiene lista de todos los ingredientes"""
   return get_all_ingredients_service()
+
+
+# ==========================================
+# PRODUCTS
+# ==========================================
+
+@router.get(
+  "/products",
+  response_model=ProductListResponse,
+  summary="Listar productos",
+  description="Obtiene lista de todos los productos activos"
+)
+def list_products(current_user = Depends(get_current_user)):
+  """Obtiene lista de todos los productos"""
+  return get_all_products_service()
 
 
 @router.get(

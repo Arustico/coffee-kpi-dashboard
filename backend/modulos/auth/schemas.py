@@ -293,13 +293,13 @@ class EmployeeResponse(BaseModel):
 
 class EmployeeListResponse(BaseModel):
 	"""Respuesta con lista de empleados"""
-	employees: list[EmployeeResponse]
+	items: list[EmployeeResponse]
 	total: int
 
 	class Config:
 		json_schema_extra = {
 			"example": {
-				"employees": [
+				"items": [
 					{
 						"id": 1,
 						"full_name": "Juan Pérez",
